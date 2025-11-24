@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Защита от DDoS-атак | Информационный ресурс</title>
+    <style>
+        /* Общие стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Шапка сайта */
+        header {
+            background: linear-gradient(135deg, #1a2a6c, #2a4d8e);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        
+        .logo span {
+            color: #4CAF50;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: #4CAF50;
+        }
+        
+        /* Главный баннер */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #3d8b40;
+        }
+        
+        /* Основной контент */
+        main {
+            padding: 3rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            color: #1a2a6c;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-card h3 {
+            color: #1a2a6c;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .feature-card p {
+            color: #666;
+        }
+        
+        /* Форумная секция */
+        .forum-preview {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 3rem;
+        }
+        
+        .forum-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .forum-topics {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .topic {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .topic-info h4 {
+            color: #1a2a6c;
+            margin-bottom: 0.5rem;
+        }
+        
+        .topic-meta {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        .topic-stats {
+            text-align: right;
+        }
+        
+        /* Подвал */
+        footer {
+            background-color: #1a2a6c;
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .footer-section p, .footer-section a {
+            color: #ccc;
+            margin-bottom: 0.5rem;
+            display: block;
+            text-decoration: none;
+        }
+        
+        .footer-section a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0.5rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">DDoS<span>Shield</span></div>
+                <nav>
+                    <ul>
+                        <li><a href="#home">Главная</a></li>
+                        <li><a href="#about">О проекте</a></li>
+                        <li><a href="#protection">Методы защиты</a></li>
+                        <li><a href="#tools">Инструменты</a></li>
+                        <li><a href="#forum">Форум</a></li>
+                        <li><a href="#contact">Контакты</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Главный баннер -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>Комплексная защита от DDoS-атак</h1>
+            <p>Центр знаний для обмена опытом, обсуждения методов защиты и инструментов мониторинга от распределённых атак типа «отказ в обслуживании»</p>
+            <a href="#forum" class="btn">Присоединиться к обсуждению</a>
+        </div>
+    </section>
+
+    <!-- Основной контент -->
+    <main class="container">
+        <!-- О проекте -->
+        <section id="about">
+            <h2 class="section-title">О проекте</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <h3>Наша миссия</h3>
+                    <p>Создание централизованного информационного ресурса для специалистов по кибербезопасности, системных администраторов и всех, кто интересуется защитой от DDoS-атак.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Цели проекта</h3>
+                    <p>Объединение экспертов для обмена опытом, обсуждения современных методов защиты и анализа новых угроз в области DDoS-атак.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Кому будет полезен</h3>
+                    <p>Владельцам сайтов, системным администраторам, специалистам по информационной безопасности и всем, кто хочет защитить свои интернет-ресурсы.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Методы защиты -->
+        <section id="protection">
+            <h2 class="section-title">Методы защиты от DDoS-атак</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <h3>Фильтрация трафика</h3>
+                    <p>Использование специализированных систем для анализа и фильтрации входящего трафика с целью отсечения вредоносных запросов.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Балансировка нагрузки</h3>
+                    <p>Распределение нагрузки между несколькими серверами для предотвращения перегрузки при DDoS-атаках.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Геофильтрация</h3>
+                    <p>Ограничение доступа к ресурсу из определенных географических регионов, откуда чаще всего исходят атаки.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Использование CDN</h3>
+                    <p>Применение сетей доставки контента для распределения нагрузки и защиты от атак на инфраструктуру.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Анализ поведения</h3>
+                    <p>Системы, анализирующие поведение пользователей и выявляющие аномальную активность, характерную для DDoS-атак.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Резервирование ресурсов</h3>
+                    <p>Создание избыточных мощностей для обработки пиковых нагрузок во время атак.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Инструменты -->
+        <section id="tools">
+            <h2 class="section-title">Инструменты мониторинга и защиты</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <h3>Cloudflare</h3>
+                    <p>Популярный сервис защиты от DDoS-атак с глобальной сетью доставки контента.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Akamai</h3>
+                    <p>Комплексное решение для защиты веб-приложений и инфраструктуры от различных типов атак.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Arbor Networks</h3>
+                    <p>Специализированные решения для обнаружения и смягчения DDoS-атак в корпоративных сетях.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Incapsula</h3>
+                    <p>Облачный сервис защиты веб-сайтов от DDoS-атак и других угроз безопасности.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Форум -->
+        <section id="forum">
+            <h2 class="section-title">Форум сообщества</h2>
+            <div class="forum-preview">
+                <div class="forum-header">
+                    <h3>Активные обсуждения</h3>
+                    <a href="#" class="btn">Создать тему</a>
+                </div>
+                <div class="forum-topics">
+                    <div class="topic">
+                        <div class="topic-info">
+                            <h4>Как защитить небольшой сайт от DDoS-атак с ограниченным бюджетом?</h4>
+                            <div class="topic-meta">Автор: Admin • Дата: 15.10.2023 • Ответов: 24</div>
+                        </div>
+                        <div class="topic-stats">
+                            <div>Просмотров: 156</div>
+                        </div>
+                    </div>
+                    <div class="topic">
+                        <div class="topic-info">
+                            <h4>Сравнение эффективности различных CDN-провайдеров против DDoS</h4>
+                            <div class="topic-meta">Автор: SecurityExpert • Дата: 12.10.2023 • Ответов: 18</div>
+                        </div>
+                        <div class="topic-stats">
+                            <div>Просмотров: 203</div>
+                        </div>
+                    </div>
+                    <div class="topic">
+                        <div class="topic-info">
+                            <h4>Новые тенденции в DDoS-атаках 2023 года</h4>
+                            <div class="topic-meta">Автор: Analyst • Дата: 08.10.2023 • Ответов: 32</div>
+                        </div>
+                        <div class="topic-stats">
+                            <div>Просмотров: 287</div>
+                        </div>
+                    </div>
+                    <div class="topic">
+                        <div class="topic-info">
+                            <h4>Настройка fail2ban для защиты от DDoS на уровне приложения</h4>
+                            <div class="topic-meta">Автор: SysAdmin • Дата: 05.10.2023 • Ответов: 15</div>
+                        </div>
+                        <div class="topic-stats">
+                            <div>Просмотров: 134</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Подвал -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>О проекте</h3>
+                    <p>DDoSShield - информационный ресурс, посвященный вопросам защиты от распределённых атак типа «отказ в обслуживании» (DDoS).</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Быстрые ссылки</h3>
+                    <a href="#home">Главная</a>
+                    <a href="#about">О проекте</a>
+                    <a href="#protection">Методы защиты</a>
+                    <a href="#tools">Инструменты</a>
+                    <a href="#forum">Форум</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Контакты</h3>
+                    <p>Email: info@ddosshield.ru</p>
+                    <p>Телефон: +7 (XXX) XXX-XX-XX</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 DDoSShield. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
